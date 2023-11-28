@@ -1,0 +1,187 @@
+@import url(https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap);
+@font-face {
+    font-family: 'SFPRO1';
+    src: url('SFUIDisplay-Thin.otf');
+}
+@font-face {
+    font-family: 'SFPRO';
+    src: url('SFUIDisplay-Medium.otf');
+}
+@font-face {
+    font-family: 'SFPRORegular';
+    src: url('SFUIDisplay-Regular.otf');
+}
+@font-face {
+    font-family: 'SFPROHeavy';
+    src: url('SFUIDisplay-Heavy.otf');
+}
+@font-face {
+    font-family: 'SFPROSemi';
+    src: url('SFUIDisplay-Semibold.otf');
+}
+@font-face {
+    font-family: 'SFPROBlack';
+    src: url('SFUIDisplay-Black.otf');
+}
+
+.temperature {
+    color: black;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 12px;
+}
+
+.indicator {
+    color: black;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 30px;
+}
+
+body {
+    text-align: center;
+    font-size: 15px;
+    background-color: #f3f3f9;
+    font-family: 'Chakra Petch', sans-serif;
+    color: #393e42;
+    font-weight: 500;
+    line-height: 1.2;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-temp-korbowod{
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding-left: 13px;
+    margin-bottom: 7px;
+    margin-top: -3px;
+}
+.title-work-press{
+font-family: 'Chakra Petch', sans-serif;
+    font-size: 14px;
+}
+.title-amper-motor{
+font-family: 'Chakra Petch', sans-serif;
+    font-size: 14px;
+}
+.title-amper-cabinet{
+font-family: 'Chakra Petch', sans-serif;
+    font-size: 14px;
+}
+
+.dropdown2-title{
+font-family: 'Chakra Petch', sans-serif;
+    font-size: 14px;
+}
+.keymat {
+    border: 0px !important;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(56,65,74,.15) !important;
+    margin-bottom: 22px !important;
+    border-radius: 0.25rem !important;
+    padding: 22px;
+}
+.led_cont .off_led {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+@media (min-width: 1024.1px) {
+    .container-fluid {
+        max-width: 90% !important;
+        margin: 0px auto !important;
+    }
+}
+@media (max-width: 1024px) {
+    .container-fluid {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+}
+.dueos {
+    margin-top: 88px;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.sctitle {
+    color: rgb(57 62 66 / 75%);
+}
+.sctitle2 {
+    font-size: 30px;
+    margin-bottom: 3px;
+    font-weight: 600;
+    margin-top: -4px;
+}
+.iconse {
+    max-width: 48px;
+    max-height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    background: #40518933;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 9px;
+}
+.iconse2 {
+    max-width: 48px;
+    max-height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    background: #19875433;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 9px;
+}
+.iconse3 {
+    max-width: 48px;
+    max-height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    background: #ffd70033;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 9px;
+}
+#temperatura_1_indicator, #temperatura_2_indicator, #OEE_2_indicator, .ndsam {
+    font-size: 25px;
+    font-weight: 600;
+}
+.ontoh {
+    font-size: 20px;
+    font-weight: 600;
+}
+.btn-primary {
+    background: #405189;
+    border-color: #405189;
+}
+.btn-primary:hover {
+    background: #364574;
+    border-color: #364574;
+}
+.btn-primary:active {
+    background: #364574;
+    border-color: #364574;
+}
+.btn-primary:focus {
+    background: #364574;
+    border-color: #364574;
+}
+.oresk {
+    margin-left: auto;
+}
+@media (max-width: 550px) {
+    .led_cont {
+        display: block !important;
+    }
+    .off_led {
+        margin-right: 0 !important;
+        margin-bottom: 6px !important
+    }
+}
