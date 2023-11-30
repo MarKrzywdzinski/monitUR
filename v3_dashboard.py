@@ -68,6 +68,7 @@ def slack_MSG(text):
 style_graph = {}
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 value = 10.0
 
 x = np.arange(10)
@@ -699,8 +700,8 @@ RelayValues_table = []
 )
 
 def motor_asymetrii(n_intervals):
-    conn = sqlite3.connect('sensor_new.db')
-    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 1'
+    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+    query = 'SELECT motor_asymetrii_L1, motor_asymetrii_L2, motor_asymetrii_L3, cabinet_amperage, motor_amperage, day_kWh, cabinet_asymetrii_L1, cabinet_asymetrii_L2, cabinet_asymetrii_L3  FROM data_center ORDER BY update_time DESC LIMIT 1'
     readData = pd.read_sql_query(query, conn)
     
     conn.close()
@@ -772,8 +773,8 @@ def chuj(n_intervals):
 )
 
 def chuj(n_intervals):
-    conn = sqlite3.connect('sensor_new.db')
-    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 1'
+    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+    query = 'SELECT update_time, kW, temperature_sensor_1, temperature_sensor_2, motor_L1, motor_L2, motor_L3, warning_current_sensor_4, warning_current_sensor_5, warning_current_sensor_6, cabinet_L1, cabinet_L2, cabinet_L3, warning_current_sensor_1, warning_current_sensor_2, warning_current_sensor_3, input_1, input_2, input_3, warning_input_1, warning_input_2, warning_input_3 FROM data_center ORDER BY update_time DESC LIMIT 1'
     readData = pd.read_sql_query(query, conn)
     
     conn.close()
@@ -1339,8 +1340,8 @@ def Figures(n_intervals):
     #SensValues = SensValues.iloc[-5:]
 
 
-    conn = sqlite3.connect('sensor_new.db')
-    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 10000'
+    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+    query = 'SELECT update_time, temperature_sensor_1, temperature_sensor_2, cabinet_L1, cabinet_L2, cabinet_L3, motor_L1, motor_L2, motor_L3, kW FROM data_center ORDER BY update_time DESC LIMIT 10000'
     SensValuesDB = pd.read_sql_query(query, conn)
     #print('leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen', len(SensValuesDB))
     conn.close()
@@ -1521,7 +1522,3 @@ def set_ip_value(n_clicks, hostname):
 if __name__ == '__main__':
     app.run(host= '0.0.0.0', debug=True, port=8050)
     #app.run(host= '192.168.1.88', debug=True, port=8050)
-
-
-
-
