@@ -1,0 +1,1 @@
+web: gunicorn v3_dashboard:server
