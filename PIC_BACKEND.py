@@ -37,7 +37,7 @@ class PICmeBot_AmperWorks_SensorBoard():
             'input': True,
         }
         try:
-            self.conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')       # create a database connection to a SQLite database
+            self.conn = sqlite3.connect('sensor_new.db')       # create a database connection to a SQLite database
             print(sqlite3.version)
         except Error as e:
             print(e)
@@ -84,6 +84,8 @@ class PICmeBot_AmperWorks_SensorBoard():
                                   motor_asymetrii_L3 REAL)''')
                 print("Table created successfully")
                 #print("chusahduasjduajsudjasudjasujduashdiuashodiuashoidhsao")
+                            # Sprawdzenie długości tabeli
+                
             except Error as e:
                 print(e)
         else:
@@ -147,6 +149,8 @@ class PICmeBot_AmperWorks_SensorBoard():
                 temperature_sensor_1 = scale_temperature * int.from_bytes(temperature_sensor_1_bytes, "little")
                 temperature_sensor_2 = scale_temperature * int.from_bytes(temperature_sensor_2_bytes, "little")
                 inputs_output = int.from_bytes(inputs_output_byte, "little")
+                
+
                 if current_sensor_1 <= 0.39:
                    current_sensor_1 = 0.0
                 else:

@@ -74,7 +74,7 @@ x = np.arange(10)
 x2 = np.arange(10)*2
 x3 = np.arange(10)*3
 
-conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+conn = sqlite3.connect('sensor_new.db')
 query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 10000'
 SensValuesDB = pd.read_sql_query(query, conn)
 
@@ -609,43 +609,43 @@ dcc.Interval(
    ),
 html.Div(id='hidden-div', style={'display': 'none'}),
 html.Div(id='hidden-div-relays', style={'display': 'none'}),
-dcc.Store(id='data'),
-dcc.Store(id='oee'),
-dcc.Store(id='temp1'),
-dcc.Store(id='warning temp1'),
-dcc.Store(id='temp2'),
-dcc.Store(id='warning temp2'),
-dcc.Store(id='cabinet1'),
-dcc.Store(id='warning cabinet1'),
-dcc.Store(id='cabinet2'),
-dcc.Store(id='warning cabinet2'),
-dcc.Store(id='cabinet3'),
-dcc.Store(id='warning cabinet3'),
-dcc.Store(id='mot1'),
-dcc.Store(id='warning mot1'),
-dcc.Store(id='mot2'),
-dcc.Store(id='warning mot2'),
-dcc.Store(id='mot3'),
-dcc.Store(id='warning mot3'),
-dcc.Store(id='input1'),
-dcc.Store(id='input2'),
-dcc.Store(id='input3'),
-dcc.Store(id='warning input1'),
-dcc.Store(id='warning input2'),
-dcc.Store(id='warning input3'),
-dcc.Store(id='relays'),
-dcc.Store(id='kW'),
-dcc.Store(id='cabinet amperage'),
-dcc.Store(id='motor amperage'),
-dcc.Store(id='day kWh'),
-dcc.Store(id='biggest day kWh'),
-dcc.Store(id='average day kWh'),
-dcc.Store(id='cabinet asymetrii L1'),
-dcc.Store(id='cabinet asymetrii L2'),
-dcc.Store(id='cabinet asymetrii L3'),
-dcc.Store(id='motor asymetrii L1'),
-dcc.Store(id='motor asymetrii L2'),
-dcc.Store(id='motor asymetrii L3'),
+dcc.Store(id='data', clear_data=True),
+dcc.Store(id='oee', clear_data=True),
+dcc.Store(id='temp1', clear_data=True),
+dcc.Store(id='warning temp1', clear_data=True),
+dcc.Store(id='temp2', clear_data=True),
+dcc.Store(id='warning temp2', clear_data=True),
+dcc.Store(id='cabinet1', clear_data=True),
+dcc.Store(id='warning cabinet1', clear_data=True),
+dcc.Store(id='cabinet2', clear_data=True),
+dcc.Store(id='warning cabinet2', clear_data=True),
+dcc.Store(id='cabinet3', clear_data=True),
+dcc.Store(id='warning cabinet3', clear_data=True),
+dcc.Store(id='mot1', clear_data=True),
+dcc.Store(id='warning mot1', clear_data=True),
+dcc.Store(id='mot2', clear_data=True),
+dcc.Store(id='warning mot2', clear_data=True),
+dcc.Store(id='mot3', clear_data=True),
+dcc.Store(id='warning mot3', clear_data=True),
+dcc.Store(id='input1', clear_data=True),
+dcc.Store(id='input2', clear_data=True),
+dcc.Store(id='input3', clear_data=True),
+dcc.Store(id='warning input1', clear_data=True),
+dcc.Store(id='warning input2', clear_data=True),
+dcc.Store(id='warning input3', clear_data=True),
+dcc.Store(id='relays', clear_data=True),
+dcc.Store(id='kW', clear_data=True),
+dcc.Store(id='cabinet amperage', clear_data=True),
+dcc.Store(id='motor amperage', clear_data=True),
+dcc.Store(id='day kWh', clear_data=True),
+dcc.Store(id='biggest day kWh', clear_data=True),
+dcc.Store(id='average day kWh', clear_data=True),
+dcc.Store(id='cabinet asymetrii L1', clear_data=True),
+dcc.Store(id='cabinet asymetrii L2', clear_data=True),
+dcc.Store(id='cabinet asymetrii L3', clear_data=True),
+dcc.Store(id='motor asymetrii L1', clear_data=True),
+dcc.Store(id='motor asymetrii L2', clear_data=True),
+dcc.Store(id='motor asymetrii L3', clear_data=True),
 dcc.Interval(
        id='interval-component1',
        interval=1 * 3000,  # in milliseconds
@@ -699,13 +699,12 @@ RelayValues_table = []
 )
 
 def motor_asymetrii(n_intervals):
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
-    query = 'SELECT motor_asymetrii_L1, motor_asymetrii_L2, motor_asymetrii_L3, cabinet_amperage, motor_amperage, day_kWh, cabinet_asymetrii_L1, cabinet_asymetrii_L2, cabinet_asymetrii_L3  FROM data_center ORDER BY update_time DESC LIMIT 1'
+    conn = sqlite3.connect('sensor_new.db')
+    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 1'
     readData = pd.read_sql_query(query, conn)
     
     conn.close()
-    print('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP \n', readData['motor_asymetrii_L1'])
-    return  readData['motor_asymetrii_L1'], readData['motor_asymetrii_L2'], readData['motor_asymetrii_L3'],\
+    return  readData['motor_asymetrii_L1'], readData['motor_asymetrii_L1'], readData['motor_asymetrii_L3'],\
             readData['cabinet_amperage'], readData['motor_amperage'], readData['day_kWh'],\
             readData['cabinet_asymetrii_L1'], readData['cabinet_asymetrii_L2'], readData['cabinet_asymetrii_L3']
 
@@ -723,13 +722,10 @@ def motor_asymetrii(n_intervals):
 )
 
 def chuj(n_intervals):
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+    conn = sqlite3.connect('sensor_new.db')
     #print('cccccccccccccccccccccccccccccc')
     query = 'SELECT biggest_kWh_of_day, average_kWh_if_day FROM data_center ORDER BY update_time DESC LIMIT 1'
     readData = pd.read_sql_query(query, conn)
-    for i in readData:
-        print(i)
-    print('readData: ', readData)
     #print('ciekawa data biggest i average: ', readData)
     conn.close()
     #print('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP \n', readData['biggest_kWh_of_day'])
@@ -776,8 +772,8 @@ def chuj(n_intervals):
 )
 
 def chuj(n_intervals):
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
-    query = 'SELECT update_time, kW, temperature_sensor_1, temperature_sensor_2, motor_L1, motor_L2, motor_L3, warning_current_sensor_4, warning_current_sensor_5, warning_current_sensor_6, cabinet_L1, cabinet_L2, cabinet_L3, warning_current_sensor_1, warning_current_sensor_2, warning_current_sensor_3, input_1, input_2, input_3, warning_input_1, warning_input_2, warning_input_3 FROM data_center ORDER BY update_time DESC LIMIT 1'
+    conn = sqlite3.connect('sensor_new.db')
+    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 1'
     readData = pd.read_sql_query(query, conn)
     
     conn.close()
@@ -1343,8 +1339,8 @@ def Figures(n_intervals):
     #SensValues = SensValues.iloc[-5:]
 
 
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
-    query = 'SELECT update_time, temperature_sensor_1, temperature_sensor_2, cabinet_L1, cabinet_L2, cabinet_L3, motor_L1, motor_L2, motor_L3, kW FROM data_center ORDER BY update_time DESC LIMIT 10000'
+    conn = sqlite3.connect('sensor_new.db')
+    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 10000'
     SensValuesDB = pd.read_sql_query(query, conn)
     #print('leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen', len(SensValuesDB))
     conn.close()
@@ -1456,7 +1452,7 @@ def Figures(n_intervals):
     prevent_initial_call=True,
     )
 def func(n_clicks):
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+    conn = sqlite3.connect('sensor_new.db')
     cursor = conn.cursor()
     cursor.execute("select * from data_center;")
     with open(__plot_path, 'w',newline='') as csv_file: 
