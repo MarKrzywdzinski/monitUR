@@ -610,43 +610,6 @@ dcc.Interval(
    ),
 html.Div(id='hidden-div', style={'display': 'none'}),
 html.Div(id='hidden-div-relays', style={'display': 'none'}),
-dcc.Store(id='data', clear_data=True),
-dcc.Store(id='oee', clear_data=True),
-dcc.Store(id='temp1', clear_data=True),
-dcc.Store(id='warning temp1', clear_data=True),
-dcc.Store(id='temp2', clear_data=True),
-dcc.Store(id='warning temp2', clear_data=True),
-dcc.Store(id='cabinet1', clear_data=True),
-dcc.Store(id='warning cabinet1', clear_data=True),
-dcc.Store(id='cabinet2', clear_data=True),
-dcc.Store(id='warning cabinet2', clear_data=True),
-dcc.Store(id='cabinet3', clear_data=True),
-dcc.Store(id='warning cabinet3', clear_data=True),
-dcc.Store(id='mot1', clear_data=True),
-dcc.Store(id='warning mot1', clear_data=True),
-dcc.Store(id='mot2', clear_data=True),
-dcc.Store(id='warning mot2', clear_data=True),
-dcc.Store(id='mot3', clear_data=True),
-dcc.Store(id='warning mot3', clear_data=True),
-dcc.Store(id='input1', clear_data=True),
-dcc.Store(id='input2', clear_data=True),
-dcc.Store(id='input3', clear_data=True),
-dcc.Store(id='warning input1', clear_data=True),
-dcc.Store(id='warning input2', clear_data=True),
-dcc.Store(id='warning input3', clear_data=True),
-dcc.Store(id='relays', clear_data=True),
-dcc.Store(id='kW', clear_data=True),
-dcc.Store(id='cabinet amperage', clear_data=True),
-dcc.Store(id='motor amperage', clear_data=True),
-dcc.Store(id='day kWh', clear_data=True),
-dcc.Store(id='biggest day kWh', clear_data=True),
-dcc.Store(id='average day kWh', clear_data=True),
-dcc.Store(id='cabinet asymetrii L1', clear_data=True),
-dcc.Store(id='cabinet asymetrii L2', clear_data=True),
-dcc.Store(id='cabinet asymetrii L3', clear_data=True),
-dcc.Store(id='motor asymetrii L1', clear_data=True),
-dcc.Store(id='motor asymetrii L2', clear_data=True),
-dcc.Store(id='motor asymetrii L3', clear_data=True),
 dcc.Interval(
        id='interval-component1',
        interval=1 * 3000,  # in milliseconds
@@ -680,151 +643,6 @@ app.layout = dbc.Container(html.Div([
 
 SensorsValues_table = []
 RelayValues_table = []
-
-#print('chuj wi o oc o chodzi')
-@app.callback(
-        Output('motor asymetrii L1', 'data'),
-        Output('motor asymetrii L2', 'data'),
-        Output('motor asymetrii L3', 'data'),
-        Output('cabinet amperage', 'data'),
-        Output('motor amperage', 'data'),
-        Output('day kWh', 'data'),
-        Output('cabinet asymetrii L1', 'data'),
-        Output('cabinet asymetrii L2', 'data'),
-        Output('cabinet asymetrii L3', 'data'),
-#Output('average day kWh', 'data'),
-        #Output('biggest day kWh', 'data'),
-        
-        
-        Input('interval-component', 'n_intervals')
-)
-
-def motor_asymetrii(n_intervals):
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
-    query = 'SELECT motor_asymetrii_L1, motor_asymetrii_L2, motor_asymetrii_L3, cabinet_amperage, motor_amperage, day_kWh, cabinet_asymetrii_L1, cabinet_asymetrii_L2, cabinet_asymetrii_L3  FROM data_center ORDER BY update_time DESC LIMIT 1'
-    readData = pd.read_sql_query(query, conn)
-    
-    conn.close()
-    return  readData['motor_asymetrii_L1'], readData['motor_asymetrii_L1'], readData['motor_asymetrii_L3'],\
-            readData['cabinet_amperage'], readData['motor_amperage'], readData['day_kWh'],\
-            readData['cabinet_asymetrii_L1'], readData['cabinet_asymetrii_L2'], readData['cabinet_asymetrii_L3']
-
-
-#print('chuj wi o oc o chodzi')
-@app.callback(
-        #Output('motor asymetrii L1', 'data'),
-        #Output('motor asymetrii L2', 'data'),
-        #Output('motor asymetrii L3', 'data'),
-        Output('biggest day kWh', 'data'),
-        Output('average day kWh', 'data'),
-        
-        
-        Input('interval-component', 'n_intervals')
-)
-
-def chuj(n_intervals):
-    conn = sqlite3.connect('sensor_new.db')
-    #print('cccccccccccccccccccccccccccccc')
-    query = 'SELECT biggest_kWh_of_day, average_kWh_if_day FROM data_center ORDER BY update_time DESC LIMIT 1'
-    readData = pd.read_sql_query(query, conn)
-    #print('ciekawa data biggest i average: ', readData)
-    conn.close()
-    #print('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP \n', readData['biggest_kWh_of_day'])
-    return  readData['biggest_kWh_of_day'], readData['average_kWh_if_day'], 
-
-
-
-@app.callback(
-        Output('data', 'data'),
-        Output('oee', 'data'),
-        Output('temp1', 'data'),
-        Output('temp2', 'data'),
-        Output('warning temp1', 'data'),
-        Output('warning temp2', 'data'),
-        Output('mot1', 'data'),
-        Output('mot2', 'data'),
-        Output('mot3', 'data'),
-        Output('warning mot1', 'data'),
-        Output('warning mot2', 'data'),
-        Output('warning mot3', 'data'),
-        Output('cabinet1', 'data'),
-        Output('cabinet2', 'data'),
-        Output('cabinet3', 'data'),
-        Output('warning cabinet1', 'data'),
-        Output('warning cabinet2', 'data'),
-        Output('warning cabinet3', 'data'),
-        Output('input1', 'data'),
-        Output('input2', 'data'),
-        Output('input3', 'data'),
-        Output('warning input1', 'data'),
-        Output('warning input2', 'data'),
-        Output('warning input3', 'data'),
-        #Output('cabinet amperage', 'data'),
-        #Output('motor amperage', 'data'),
-        #Output('day kWh', 'data'),
-        #Output('cabinet asymetrii L1', 'data'),
-        #Output('cabinet asymetrii L2', 'data'),
-        #Output('cabinet asymetrii L3', 'data'),
-        #Output('motor asymetrii L1', 'data'),
-        #Output('motor asymetrii L2', 'data'),
-        #Output('motor asymetrii L3', 'data'),
-        
-        Input('interval-component', 'n_intervals')
-)
-
-def chuj(n_intervals):
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
-    query = 'SELECT update_time, kW, temperature_sensor_1, temperature_sensor_2, motor_L1, motor_L2, motor_L3, warning_current_sensor_4, warning_current_sensor_5, warning_current_sensor_6, cabinet_L1, cabinet_L2, cabinet_L3, warning_current_sensor_1, warning_current_sensor_2, warning_current_sensor_3, input_1, input_2, input_3, warning_input_1, warning_input_2, warning_input_3 FROM data_center ORDER BY update_time DESC LIMIT 1'
-    readData = pd.read_sql_query(query, conn)
-    
-    conn.close()
-    #print('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP \n', readData['motor_asymetrii_L1'])
-    return  readData['update_time'], readData['kW'],\
-            readData['temperature_sensor_1'], readData['temperature_sensor_2'],\
-            readData['warning_temperature_1'], readData['warning_temperature_2'],\
-            readData['motor_L1'], readData['motor_L2'], readData['motor_L3'],\
-            readData['warning_current_sensor_4'], readData['warning_current_sensor_5'], readData['warning_current_sensor_6'],\
-            readData['cabinet_L1'], readData['cabinet_L2'], readData['cabinet_L3'],\
-            readData['warning_current_sensor_1'], readData['warning_current_sensor_2'], readData['warning_current_sensor_3'],\
-            readData['input_1'], readData['input_2'], readData['input_3'],\
-            readData['warning_input_1'], readData['warning_input_2'], readData['warning_input_3'],\
-            #readData['cabinet_amperage'], readData['motor_amperage'], readData['day_kWh'],\
-            #readData['cabinet_asymetrii_L1'], readData['cabinet_asymetrii_L2'], readData['cabinet_asymetrii_L3'],\
-            #readData['motor_asymetrii_L1'], #readData['motor_asymetrii_L2'], readData['motor_asymetrii_L3']
-
-'''@app.callback(
-        [#Output('data', 'data'),
-         ,], 
-         Input('interval-component', 'n_intervals')
-)
-
-def store_data(n_intervals, chuj):
-    
-    print('chuj wi o oc o chodzi1111111', conn)
-    #try:
-    conn = sqlite3.connect('sensor_new.db')
-    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 1'
-    readData = pd.read_sql_query(query, conn)
-    print('ciota')
-    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa',(readData))
-    print('readdasdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss, ', readData['cabinet_L1'])
-
-    conn.close()
-    #return  readData['update_time'], readData['kW'],\
-    #return  readData['temperature_sensor_1'], readData['temperature_sensor_2'],\
-    #        readData['warning_temperature_1'], readData['warning_temperature_2'],\
-    #        readData['motor_L1'], readData['motor_L2'], readData['motor_L3'],\
-    return  readData['warning_current_sensor_4'], readData['warning_current_sensor_5'], readData['warning_current_sensor_6'],\
-            readData['cabinet_L1'], readData['cabinet_L2'], readData['cabinet_L3'],\
-            readData['warning_current_sensor_1'], readData['warning_current_sensor_2'], readData['warning_current_sensor_3'],\
-            readData['input_1'], readData['input_2'], readData['input_3'],\
-            readData['warning_input_1'], readData['warning_input_2'], readData['warning_input_3'],\
-            readData['cabinet_amperage'], readData['motor_amperage'], readData['day_kWh'],\
-            readData['cabinet_asymetrii_L1'], readData['cabinet_asymetrii_L2'], readData['cabinet_asymetrii_L3'],\
-            readData['motor_asymetrii_L1'], readData['motor_asymetrii_L2'], readData['motor_asymetrii_L3']
-#except:
-    #    print("Plik Indicators.json nie został znaleziony.")
-'''
 
 emergency_information = {
                    '5' : 'Asymetria fazy L1 suwaka jest wieksza niz 80%!',
@@ -879,112 +697,51 @@ emergency_information = {
      Output('biggest_day_kWh', 'children'),
      Output('average_day_kWh', 'children'),
      ],
-     [
-        Input('data', 'data'),
-        Input('oee', 'data'),
-        Input('temp1', 'data'),
-        Input('temp2', 'data'),
-        Input('warning temp1', 'data'),
-        Input('warning temp2', 'data'),
-        Input('mot1', 'data'),
-        Input('mot2', 'data'),
-        Input('mot3', 'data'),
-        Input('warning mot1', 'data'),
-        Input('warning mot2', 'data'),
-        Input('warning mot3', 'data'),
-        Input('cabinet1', 'data'),
-        Input('cabinet2', 'data'),
-        Input('cabinet3', 'data'),
-        Input('warning cabinet1', 'data'),
-        Input('warning cabinet2', 'data'),
-        Input('warning cabinet3', 'data'),
-        Input('input1', 'data'),
-        Input('input2', 'data'),
-        Input('input3', 'data'),
-        Input('warning input1', 'data'),
-        Input('warning input2', 'data'),
-        Input('warning input3', 'data'),
-        Input('motor asymetrii L1', 'data'),
-        Input('motor asymetrii L2', 'data'),
-        Input('motor asymetrii L3', 'data'),
-        Input('cabinet asymetrii L1', 'data'),
-        Input('cabinet asymetrii L2', 'data'),
-        Input('cabinet asymetrii L3', 'data'),
-        Input('cabinet amperage', 'data'),
-        Input('motor amperage', 'data'),
-        Input('day kWh', 'data'),
-        Input('biggest day kWh', 'data'),
-        Input('average day kWh', 'data'),
-     Input('interval-component', 'n_intervals')]
+     [Input('interval-component', 'n_intervals')]
 )
 
-def Indicators(date, oee,
-               temp1, temp2, warning_temp1, warning_temp2,
-               mot1, mot2, mot3, warning_mot1, warning_mot2, warning_mot3,
-               cab1, cab2, cab3, warning_cab1, warning_cab2, warning_cab3,
-               input1, input2, input3, warning_input1, warning_input2, warning_input3,
-               motor_asym_L1, motor_asym_L2, motor_asym_L3, 
-               cabinet_asym_L1, cabinet_asym_L2, cabinet_asym_L3, 
-               cabinet_amperage, motor_amperage, day_kWh,
-               biggest_kWh, average_kWh,
-                n_intervals):
+def Indicators(n_intervals):
 
-    global temperature_sensor_1
-    global temperature_sensor_2
-    global Motor_L1
-    global Motor_L2
-    global Motor_L3
-    global Cabinet_L1
-    global Cabinet_L2
-    global Cabinet_L3
-    global Motor_L1_Asymetrii
-    global Motor_L2_Asymetrii
-    global Motor_L3_Asymetrii
-    global Cabinet_L1_Asymetrii
-    global Cabinet_L2_Asymetrii
-    global Cabinet_L3_Asymetrii
-    global Watts
-
-
-    Motor_L1_Asymetrii = warning_mot1
-    Motor_L2_Asymetrii = warning_mot2
-    Motor_L3_Asymetrii = warning_mot3
-    Cabinet_L1_Asymetrii = warning_cab1
-    Cabinet_L2_Asymetrii = warning_cab2
-    Cabinet_L3_Asymetrii = warning_cab3
+    conn = sqlite3.connect('sensor_new.db')
+    query = 'SELECT * FROM data_center ORDER BY update_time DESC LIMIT 1'
+    readData = pd.read_sql_query(query, conn)
+    print('6666666666666666666666', readData)
+    conn.close()
     
-    Watts = oee
-    print('warning _temp', temp1, temp2, warning_temp1, warning_temp2,
-               mot1, mot2, mot3, warning_mot1, warning_mot2, warning_mot3,
-               cab1, cab2, cab3, warning_cab1, warning_cab2, warning_cab3,)
-    print('')
-    content1 = str(round(temp1[0], 3))
-    content2 = str(round(temp2[0], 3))
-    content3 = str(date[0])
-    content4 = str(round(Watts[0], 2))
-    content5 = str(round(cab1[0], 3))
-    content6 = str(round(cab2[0], 3)) 
-    content7 = str(round(cab3[0], 3))
-    content8 = str(round(mot1[0], 3))
-    content9 = str(round(mot2[0], 3))
-    content10 = str(round(mot3[0], 3))
-    content11 = str(input1[0])
-    content12 = str(input2[0])
-    content13 = str(input3[0])
-    content14 = str(round(motor_asym_L1[0], 3))
-    content15 = str(round(motor_asym_L2[0], 3))
-    content16 = str(round(motor_asym_L3[0], 3))
-    content17 = str(round(cabinet_asym_L1[0], 3))
-    content18 = str(round(cabinet_asym_L2[0], 3))
-    content19 = str(round(cabinet_asym_L3[0], 3))
-    content20 = str(round(cabinet_amperage[0], 3))
-    content21 = str(round(motor_amperage[0], 3))
-    content22 = str(round(day_kWh[0], 3))
-    content23 = str(round(biggest_kWh[0], 3))
-    content24 = str(round(average_kWh[0], 3))
+    
+    
+    content1 = str(round(readData['temperature_sensor_1'][0], 3))
+    print('c1', content1)
+    content2 = str(round(readData['temperature_sensor_2'][0], 3))
+    content3 = str(readData['update_time'][0])
+    content4 = str(round(readData['kW'][0], 2))
+    content5 = str(round(readData['cabinet_L1'][0], 3))
+    content6 = str(round(readData['cabinet_L2'][0], 3)) 
+    print('c6', content6)
+    content7 = str(round(readData['cabinet_L3'][0], 3))
+    content8 = str(round(readData['motor_L1'][0], 3))
+    content9 = str(round(readData['motor_L2'][0], 3))
+    print('c9', content9)
+    content10 = str(round(readData['motor_L3'][0], 3))
+    content11 = str(readData['input_1'][0])
+    content12 = str(readData['input_2'][0])
+    content13 = str(readData['input_3'][0])
+    print('c13', content13)
+    content14 = str(round(readData['motor_asymetrii_L1'][0], 3))
+    content15 = str(round(readData['motor_asymetrii_L2'][0], 3))
+    content16 = str(round(readData['motor_asymetrii_L3'][0], 3))
+    content17 = str(round(readData['cabinet_asymetrii_L1'][0], 3))
+    print('c17', content17)
+    content18 = str(round(readData['cabinet_asymetrii_L2'][0], 3))
+    content19 = str(round(readData['cabinet_asymetrii_L3'][0], 3))
+    content20 = str(round(readData['cabinet_amperage'][0], 3))
+    content21 = str(round(readData['motor_amperage'][0], 3))
+    content22 = str(round(readData['day_kWh'][0], 3))
+    content23 = str(round(readData['biggest_kWh_of_day'][0], 3))
+    content24 = str(round(readData['average_kWh_if_day'][0], 3))
 
 
-    if warning_temp1[0]==1:
+    if readData['warning_temperature_1'][0]==True:
         temp_indicator_div_style1 = {
             # 'width': '300px',
             'height': '100px',
@@ -1014,7 +771,7 @@ def Indicators(date, oee,
 
         emer1 = 0
 
-    if warning_temp2[0]==1:
+    if readData['warning_temperature_2'][0]==True:
         temp_indicator_div_style2 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1043,7 +800,7 @@ def Indicators(date, oee,
         }
         emer2 = 0
 
-    if warning_cab1[0]==1:
+    if readData['warning_current_sensor_1'][0]==True:
         amper_indicator_div_style1 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1071,7 +828,7 @@ def Indicators(date, oee,
         }
         emer3 = 0
 
-    if warning_cab2[0]==1:
+    if readData['warning_current_sensor_2'][0]==True:
         amper_indicator_div_style2 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1099,7 +856,7 @@ def Indicators(date, oee,
         }
         emer4 = 0
 
-    if warning_cab3[0]==1:
+    if readData['warning_current_sensor_3'][0]==True:
         amper_indicator_div_style3 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1126,7 +883,7 @@ def Indicators(date, oee,
             # 'margin': '10px 10px 10px 10px'
         }
         emer5 = 0
-    if warning_mot1[0]==1:
+    if readData['warning_current_sensor_4'][0]==True:
         amper_indicator_div_style4 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1154,7 +911,7 @@ def Indicators(date, oee,
         }
         emer6 = 0
 
-    if warning_mot2[0]==1:
+    if readData['warning_current_sensor_5'][0]==True:
         amper_indicator_div_style5 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1181,7 +938,8 @@ def Indicators(date, oee,
             # 'margin': '10px 10px 10px 10px'
         }
         emer7 = 0
-    if warning_mot3[0]==1:
+        
+    if readData['warning_current_sensor_6'][0]==True:
         amper_indicator_div_style6 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1208,7 +966,7 @@ def Indicators(date, oee,
             # 'margin': '10px 10px 10px 10px'
         }
         emer8 = 0
-    if warning_input1[0]==1:
+    if readData['warning_input_1'][0]==True:
         input_indicator_div_style1 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1235,7 +993,7 @@ def Indicators(date, oee,
             # 'margin': '10px 10px 10px 10px'
         }
         emer9 = 0
-    if warning_input2[0]==1:
+    if readData['warning_input_2'][0]==True:
         input_indicator_div_style2 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1262,7 +1020,7 @@ def Indicators(date, oee,
             # 'margin': '10px 10px 10px 10px'
         }
         emer10 = 0
-    if warning_input3[0]==1:
+    if readData['warning_input_3'][0]==True:
         input_indicator_div_style3 = {
             # 'width': '300px',
             # 'height': '100px',
@@ -1336,40 +1094,14 @@ columns = ['data1', 'data2',  'cabinet_L1', 'cabinet_L2', 'cabinet_L3', 'motor_L
 
 def Figures(n_intervals):
     global relays
-    #SensValues = pd.read_csv(__plot_path,delimiter="\s+", names=columns, dtype=dtypes, engine='python')
-    #SensValues = SensValues.iloc[-5:]
 
 
-    conn = sqlite3.connect('/home/pi/venv/raspberry2/sensor_new.db')
+    conn = sqlite3.connect('sensor_new.db')
     query = 'SELECT update_time, temperature_sensor_1, temperature_sensor_2, cabinet_L1, cabinet_L2, cabinet_L3, motor_L1, motor_L2, motor_L3, kW FROM data_center ORDER BY update_time DESC LIMIT 10000'
     SensValuesDB = pd.read_sql_query(query, conn)
-    #print('leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen', len(SensValuesDB))
     conn.close()
-    #pizda = SensValuesDB['current_sensor_1']
-    #print(type(SensValuesDB['update_time'][0]))
-    
-    
-    #print('sensvalue', SensValues['temp_1'][:1]q)
-    #jebana_data = f"{str(SensValues['data1'].iloc[0])} {str(SensValues['data2'].iloc[0])}"
-    #godziny = SensValues['data1'] + ' ' +SensValues['data2']
-    
-    #jebana_data = f"{str(SensValues['data1'].iloc[0])} {str(SensValues['data2'].iloc[0])}"
-    #godziny = SensValues['data1'] + ' ' +SensValues['data2']
-    
-    #for i in range(len(godziny)):
-    #    godziny[i] = datetime.datetime.strptime(godziny[i], '%d/%m/%Y, %H:%M:%S.%f') 
-
-    #def convert_to_datetime(string_time):
-    #    return datetime.strptime(string_time, '%d%m%Y, %H:%M:%S.%f')
-
-    # Przetworzenie kolumny 'update_time' w DataFrame na typ datetime
-    #data['update_time'] = data['update_time'].apply(convert_to_datetime)
 
     SensValuesDB['update_time'] = SensValuesDB['update_time'].apply(lambda x: datetime.datetime.strptime(x, '%d/%m/%Y, %H:%M:%S.%f'))
-
-    #SensValuesDB['update_time'] = SensValuesDB['update_time'].apply()
-    #for i in range(len(SensValuesDB['update_time'])):
-    #    SensValuesDB['update_time'].iloc[i] = datetime.datetime.strptime(SensValuesDB['update_time'].iloc[i], '%d/%m/%Y, %H:%M:%S.%f') 
 
     print(type(SensValuesDB['update_time'][0]))
     temp1 = go.Scatter(x=SensValuesDB['update_time'], y=SensValuesDB['temperature_sensor_1'], 

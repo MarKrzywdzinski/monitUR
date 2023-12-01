@@ -381,6 +381,32 @@ class PICmeBot_AmperWorks_SensorBoard():
                     
                     print('przeproeporeore')
                     try:
+                        table_name = 'data_center'
+                        query = f"SELECT COUNT(*) FROM {table_name}"
+                        cursor = self.conn.cursor()
+                        cursor.execute(query)
+                        result = cursor.fetchone()
+                        row_count = result[0]   
+                        print("1983021893710289730192830912830912830912", row_count)
+                        cursor.close()
+
+                        if row_count >= 10:
+                            query = """
+                                DELETE FROM data_center
+                                WHERE update_time IN (
+                                    SELECT update_time
+                                    FROM data_center
+                                    ORDER BY update_time DESC
+                                    LIMIT 1000
+                                );
+                                """
+                            cursor = self.conn.cursor()
+                            cursor.execute(query)
+                            
+                            print('cipa')
+                        #conn.close()
+
+
                         self.conn.execute('''INSERT INTO data_center(
                                           update_time, 
                                   cabinet_L1, 
